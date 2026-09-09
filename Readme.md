@@ -10,7 +10,7 @@
 
 OrgX-AI allows a user to provide a **high-level business objective**, and the system autonomously transforms it into an executable organizational structure.
 
-Instead of using a single AI agent to perform every task, OrgX-AI creates a virtual organization consisting of:
+ of using a single AI agent to perform every task, OrgX-AI creates a virtual organization consisting of:
 
 * Organizational Agent
 * Department Heads
