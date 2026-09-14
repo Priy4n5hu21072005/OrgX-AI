@@ -1,5 +1,13 @@
+import sys
+from pathlib import Path
 import pytest
 from typing import Generator
+
+# Ensure backend directory is in sys.path
+backend_dir = Path(__file__).resolve().parents[1]
+if str(backend_dir) not in sys.path:
+    sys.path.insert(0, str(backend_dir))
+
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
