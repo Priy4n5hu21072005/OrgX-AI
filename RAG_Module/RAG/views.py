@@ -4,11 +4,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from pathlib import Path
 
-from .serializers import DocumentUploadSerializer
+from .serializers import DocumentUploadSerializer,RetrievalSerializer
 from .services.document_parser import extract_text
 from .services.chunking import chunk_text
 from .services.embedding import embedding_model
 from .services.vector_store import store_document_chunks
+from .services.retrieval import retrieval_chunks
 # Create your views here.
 
 class DocumentUploadView(APIView):
@@ -52,3 +53,22 @@ class DocumentUploadView(APIView):
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
+
+class RetrievalView(APIView):
+    def post(self,request):
+        serializer=RetrievalSerializer(data=request.data)      
+        if not serializer.is_valid():
+            return Response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        query=serializer.validated_data["query"]
+        top_k=serializer.validated_data["top_k"]
+
+        results=retrieval_chunks(query,top_k)
+
+        return Response({
+            "query":query,
+            "results":results
+        })
